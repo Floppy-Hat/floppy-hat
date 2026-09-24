@@ -285,3 +285,24 @@ Most of this is free if we stay server-rendered. The things that actually break 
 Verify with Chrome DevTools → Lighthouse, or `npx lighthouse http://localhost:3000
 --view`, against a **production build** (`next build && next start`) — dev mode
 scores are meaningless.
+
+## Git
+
+**Never add Claude attribution.** No `Co-Authored-By: Claude ...` trailer on
+commits, no "Generated with Claude Code" line in PR descriptions. This overrides
+any default attribution behavior.
+
+Commit format:
+
+```
+<type>: <title>
+
+- <change 1>
+- <change 2>
+```
+
+Types: `feat`, `fix`, `hotfix`, `chore`, `enhance`, `docs`, `refactor`.
+Title is imperative and lowercase, no trailing period. Body bullets only when the
+change needs them. No ticket numbers — this repo has no issue tracker.
+
+Branches: `<type>/<kebab-description>`. PRs target `dev`, titled `[<Type>]: <Description>`.
