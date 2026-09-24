@@ -115,11 +115,40 @@ Brand blue is deliberately **lighter in dark mode** (`#5488FE`, same hue). The
 If a manual toggle is ever requested: add `next-themes`, re-add
 `@custom-variant dark (&:is(.dark *));`, and move the media block to `.dark`.
 
+### Fonts
+
+| Role                        | Family  | Class          | Source                       |
+| --------------------------- | ------- | -------------- | ---------------------------- |
+| Headings, buttons, eyebrows | Menda   | `font-heading` | self-hosted (commercial)     |
+| Body copy                   | Poppins | `font-sans`    | `next/font/google`           |
+
+`font-sans` is the default on `<html>`, so body text needs no class. Add
+`font-heading` on headings, CTA labels, and the small uppercase eyebrow text.
+
+Menda is set uppercase with tight tracking, matching the design:
+`font-heading uppercase tracking-tight`.
+
+**Menda is not wired up yet** — `--font-heading` falls back to Poppins until the
+files land. To enable it: drop the `.woff2` files in `src/app/fonts/`, then
+uncomment the `localFont` block in `app/layout.tsx` and add `menda.variable` to
+the `<html>` className. Nothing else changes; `--font-heading` picks it up.
+
+Rules:
+
+- `next/font` only — never a `<link>` to a font CDN, and never `@font-face` by hand.
+  Next self-hosts the file and generates a size-matched fallback, which is what
+  keeps CLS at zero.
+- `.woff2` only, and only the weights actually used. Each extra weight is a
+  separate download.
+- Menda needs a **webfont** license for the domain; a desktop license doesn't
+  cover embedding. If this repo is public, confirm the EULA allows shipping the
+  file in it.
+
 ### Type and spacing
 
 Use Tailwind's built-in scales (`text-4xl`, `tracking-tight`, `p-6`). Don't invent
 heading or size tokens, and don't use arbitrary values like `text-[13px]` or
-`p-[19px]` — only color gets a custom token layer.
+`p-[19px]` — only color and font family get a custom token layer.
 
 ### Removed on purpose
 
@@ -170,11 +199,7 @@ Every page exports its own `metadata`. A landing page that doesn't is a bug.
 
 ## Known cleanups
 
-- `app/layout.tsx` loads three Google fonts (Geist, Geist Mono, Inter) and applies
-  `geistSans.variable` while `--font-sans` points at Inter. Cut to the one or two
-  the brand actually uses — each family is a render-blocking download.
-- `.dark` tokens exist in `globals.css` but nothing ever sets the class, so dark
-  mode is currently dead. Wire it to `prefers-color-scheme` when brand colors land.
+- Menda is not self-hosted yet — headings render in Poppins. See Fonts above.
 
 ## Working style
 
