@@ -54,14 +54,78 @@ Prefer native over JS: `<a href="#pricing">` over scroll handlers, CSS
 
 ## Theming
 
-`src/app/globals.css` is the single source of truth — Tailwind v4 `@theme` +
-the `:root` / `.dark` token blocks shadcn generates. There is no `src/styles/`.
+`src/app/globals.css` is the single source of truth — Tailwind v4 `@theme` plus
+the `:root` and `prefers-color-scheme` token blocks. There is no `src/styles/`.
 
-Use Tailwind's built-in type scale (`text-4xl`, `tracking-tight`, …). Don't invent
-heading/size tokens; only brand colors and fonts get overridden.
+### Brand
 
-Dark mode is CSS-only via `prefers-color-scheme`. Add `next-themes` **only** if a
-manual toggle is actually requested.
+| Color | Hex       | Role                                              |
+| ----- | --------- | ------------------------------------------------- |
+| Blue  | `#012AFE` | `--primary` — CTAs, links, focus rings            |
+| Gray  | `#1E1E1E` | body text in light; elevated surfaces in dark     |
+| White | `#FFFFFF` | light page background; text on blue and on dark   |
+| Black | `#000000` | dark page background                              |
+
+### Use tokens, never the hex
+
+Every color in a component is a semantic Tailwind class. The hex values appear
+exactly once, in `globals.css`, and nowhere else in the repo.
+
+```tsx
+// ✅
+<section className="bg-background text-foreground">
+  <h2 className="text-foreground">Title</h2>
+  <p className="text-muted-foreground">Supporting copy</p>
+  <Button className="bg-primary text-primary-foreground">Get started</Button>
+  <a className="text-primary underline-offset-4 hover:underline">Learn more</a>
+  <div className="rounded-lg border border-border bg-card text-card-foreground" />
+</section>
+
+// ❌ never
+<div className="bg-[#012AFE] text-[#FFFFFF]" />
+<div style={{ color: '#1E1E1E' }} />
+```
+
+| Need                        | Class                                        |
+| --------------------------- | -------------------------------------------- |
+| Page surface                | `bg-background` + `text-foreground`          |
+| Card / panel                | `bg-card text-card-foreground border-border` |
+| Primary CTA                 | `bg-primary text-primary-foreground`         |
+| Link / accent text          | `text-primary`                               |
+| Secondary copy, captions    | `text-muted-foreground`                      |
+| Subtle fill (badge, hover)  | `bg-muted` / `bg-accent`                     |
+| Hairlines, dividers         | `border-border`                              |
+| Focus ring                  | `ring-ring` (never remove the ring)          |
+
+Tints and shades come from the opacity modifier — `bg-primary/10`,
+`border-primary/20` — not from new hex values. If a shade genuinely can't be
+expressed that way, add a **named token** to `globals.css` first, then use it.
+
+### Dark mode
+
+Follows the OS via `prefers-color-scheme`. No class, no JS, no flash. Every
+token is redefined in that block, so components need no `dark:` variants —
+`bg-background` is already correct in both themes. Reach for a `dark:` utility
+only for a genuine one-off.
+
+Brand blue is deliberately **lighter in dark mode** (`#5488FE`, same hue). The
+`#012AFE` original is only 2.8:1 on black — unreadable. Both directions clear
+4.5:1; keep it that way when adjusting.
+
+If a manual toggle is ever requested: add `next-themes`, re-add
+`@custom-variant dark (&:is(.dark *));`, and move the media block to `.dark`.
+
+### Type and spacing
+
+Use Tailwind's built-in scales (`text-4xl`, `tracking-tight`, `p-6`). Don't invent
+heading or size tokens, and don't use arbitrary values like `text-[13px]` or
+`p-[19px]` — only color gets a custom token layer.
+
+### Removed on purpose
+
+The shadcn scaffold's `--sidebar-*` and `--chart-*` tokens are gone — this site
+has no sidebar and no charts. `shadcn add sidebar` (or `chart`) re-adds the
+variables it needs, so nothing is lost.
 
 ## Contact form
 
