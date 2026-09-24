@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 // Body copy. Poppins is not a variable font — weights must be listed.
@@ -10,17 +11,14 @@ const poppins = Poppins({
   display: "swap",
 });
 
-// Headings use Menda (commercial, self-hosted). Until the .woff2 files land in
-// src/app/fonts/, --font-heading falls back to Poppins in globals.css.
-// To enable:
-//   import localFont from "next/font/local";
-//   const menda = localFont({
-//     src: [{ path: "./fonts/Menda-Black.woff2", weight: "900", style: "normal" }],
-//     variable: "--font-menda",
-//     display: "swap",
-//     adjustFontFallback: "Arial",
-//   });
-// then add menda.variable to the <html> className below.
+// Headings, CTA labels, eyebrows. One weight is all the design uses — the other
+// Menda cuts sit unused in ./fonts and are not bundled until imported here.
+const menda = localFont({
+  src: [{ path: "./fonts/menda-extrabold.woff2", weight: "800", style: "normal" }],
+  variable: "--font-menda",
+  display: "swap",
+  adjustFontFallback: "Arial",
+});
 
 export const metadata: Metadata = {
   title: "Floppy Hat",
@@ -29,7 +27,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${poppins.variable} antialiased h-full`}>
+    <html
+      lang="en"
+      className={`${poppins.variable} ${menda.variable} antialiased h-full`}
+    >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

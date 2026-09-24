@@ -117,32 +117,40 @@ If a manual toggle is ever requested: add `next-themes`, re-add
 
 ### Fonts
 
-| Role                        | Family  | Class          | Source                       |
-| --------------------------- | ------- | -------------- | ---------------------------- |
-| Headings, buttons, eyebrows | Menda   | `font-heading` | self-hosted (commercial)     |
-| Body copy                   | Poppins | `font-sans`    | `next/font/google`           |
+| Role                        | Family  | Class          | Source                          |
+| --------------------------- | ------- | -------------- | ------------------------------- |
+| Headings, buttons, eyebrows | Menda   | `font-heading` | self-hosted, `src/app/fonts/`   |
+| Body copy                   | Poppins | `font-sans`    | `next/font/google`              |
 
 `font-sans` is the default on `<html>`, so body text needs no class. Add
-`font-heading` on headings, CTA labels, and the small uppercase eyebrow text.
+`font-heading` on headings, CTA labels, and the small uppercase eyebrow text —
+the design sets all of them uppercase with tight tracking:
 
-Menda is set uppercase with tight tracking, matching the design:
-`font-heading uppercase tracking-tight`.
+```tsx
+<h1 className="font-heading uppercase tracking-tight">Your competitor has better branding.</h1>
+```
 
-**Menda is not wired up yet** — `--font-heading` falls back to Poppins until the
-files land. To enable it: drop the `.woff2` files in `src/app/fonts/`, then
-uncomment the `localFont` block in `app/layout.tsx` and add `menda.variable` to
-the `<html>` className. Nothing else changes; `--font-heading` picks it up.
+Only **Menda ExtraBold** is bundled. `menda.woff2`, `menda-semibold.woff2`, and
+`menda-medium.woff2` sit in `src/app/fonts/` unused — `next/font` bundles only
+what `layout.tsx` imports, so they cost nothing. Add one to the `src` array there
+if a comp actually calls for it.
 
 Rules:
 
 - `next/font` only — never a `<link>` to a font CDN, and never `@font-face` by hand.
   Next self-hosts the file and generates a size-matched fallback, which is what
   keeps CLS at zero.
-- `.woff2` only, and only the weights actually used. Each extra weight is a
-  separate download.
-- Menda needs a **webfont** license for the domain; a desktop license doesn't
-  cover embedding. If this repo is public, confirm the EULA allows shipping the
-  file in it.
+- `.woff2` only. Verify the magic bytes are `774f4632` (`wOF2`) before wiring a
+  font — foundry bundles often ship print formats (PostScript Type 1, `.otf`)
+  under a `.woff2` filename, and the build fails with a confusing
+  `unexpected data version`.
+- One weight per file — a `.woff2` never contains a whole family unless it's a
+  variable font. Never declare a weight you don't have a file for; the browser
+  silently fakes it.
+- **Licensing:** local development is fine under any license. Serving the font
+  from a public domain is web embedding and needs a **webfont** license — confirm
+  the Menda EULA covers it before the site goes live. The repo is private, so
+  committing the file is not public redistribution.
 
 ### Type and spacing
 

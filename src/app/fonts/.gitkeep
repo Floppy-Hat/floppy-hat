@@ -1,8 +1,0 @@
-Self-hosted font files (.woff2 only) go in this folder.
-
-Menda — expected filenames, referenced by app/layout.tsx:
-  Menda-Black.woff2    (900) — headings, CTA labels
-  Menda-Bold.woff2     (700) — optional, only if the design uses it
-
-The localFont `src` path is relative to layout.tsx, so a file here is "./fonts/<name>.woff2".
-Delete this file once real fonts are added.
