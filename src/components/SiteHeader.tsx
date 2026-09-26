@@ -1,6 +1,6 @@
-import { IconMenu2 } from "@tabler/icons-react";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { MobileNav } from "@/components/MobileNav";
 import { NavLinks } from "@/components/NavLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -15,17 +15,10 @@ export function SiteHeader() {
           <ThemeToggle />
         </div>
 
-        {/* Phones: native disclosure, no JS. Desktop: the list, always open.
-            Only one is ever in the accessibility tree — the other is display:none. */}
-        <details className="lg:hidden">
-          <summary className="grid size-12 cursor-pointer list-none place-items-center">
-            <IconMenu2 className="size-6" aria-hidden="true" />
-            <span className="sr-only">Menu</span>
-          </summary>
-          <nav aria-label="Main" className="mt-2">
-            <NavLinks className="flex-col items-end gap-x-0" />
-          </nav>
-        </details>
+        {/* Phones: drawer. Desktop: the inline list. */}
+        <div className="lg:hidden">
+          <MobileNav />
+        </div>
 
         <nav aria-label="Main" className="hidden lg:block">
           <NavLinks />

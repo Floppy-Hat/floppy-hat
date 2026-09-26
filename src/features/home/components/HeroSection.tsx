@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { CountUp } from "./CountUp";
-import { ParallaxFrame } from "./ParallaxFrame";
 import type { Stat } from "@/types/content";
 
 const STATS: Stat[] = [
@@ -13,9 +12,9 @@ export function HeroSection() {
     // One grid cell on phones — image, scrim and headline stack — and two rows
     // from md, where the image drops below the headline as the comp's band.
     <section className="grid">
-      {/* Frame clips the parallax shift; aspect-[12/5] is the source's own
-          1440x600 ratio, so the desktop band stays the comp's framing. */}
-      <ParallaxFrame className="col-start-1 row-start-1 md:row-start-2 md:aspect-[12/5]">
+      {/* aspect-[12/5] is the source's own 1440x600 ratio, so the band is
+          the comp's framing exactly — nothing is cropped. */}
+      <div className="col-start-1 row-start-1 overflow-hidden md:row-start-2 md:aspect-[12/5]">
         <Image
           src="/app/kid-hero.png"
           alt="A child in a homemade foil spacesuit holding up a paper plane against an overcast sky"
@@ -26,7 +25,7 @@ export function HeroSection() {
           loading="eager"
           preload
         />
-      </ParallaxFrame>
+      </div>
 
       {/* A gradient rather than a flat dim: the image stays visible up top and
           only darkens under the copy, which sits at the bottom. White text on
