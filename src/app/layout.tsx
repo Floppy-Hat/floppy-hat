@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SITE, siteUrl } from "@/lib/site";
 import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
@@ -12,13 +13,26 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://floppyhat.com"),
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Floppy Hat",
-    template: "%s — Floppy Hat",
+    default: SITE.title,
+    template: `%s — ${SITE.name}`,
   },
-  description:
-    "We create brands that look different, feel right, and stay memorable.",
+  description: SITE.description,
+  applicationName: SITE.name,
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    title: SITE.title,
+    description: SITE.description,
+    url: "/",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE.title,
+    description: SITE.description,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
