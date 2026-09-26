@@ -32,7 +32,6 @@ export default function Image() {
       >
         <div style={{ display: "flex" }}>
           {/* Native 84x59, scaled 2.5x */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`data:image/svg+xml;base64,${logo}`}
             width={210}
