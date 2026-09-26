@@ -22,8 +22,8 @@ export function HeroSection() {
           height={600}
           sizes="100vw"
           className="h-full w-full object-cover"
-          loading="eager"
           preload
+          fetchPriority="high"
         />
       </div>
 
