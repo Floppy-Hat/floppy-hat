@@ -1,38 +1,62 @@
-import type { Hero } from "@/types/content";
+import Image from "next/image";
+import { CountUp } from "./CountUp";
+import { ParallaxFrame } from "./ParallaxFrame";
+import type { Stat } from "@/types/content";
 
-const HERO: Hero = {
-  eyebrow: "Branding studio",
-  headline: "Your competitor has better branding.",
-  subhead: "Placeholder subhead. Replace when the copy lands.",
-  primaryCta: { label: "Start a project", href: "#contact" },
-  secondaryCta: { label: "See our work", href: "#work" },
-};
+const STATS: Stat[] = [
+  { id: "projects", value: 70, suffix: "+", label: "Projects completed" },
+  { id: "experience", value: 5, suffix: "+", label: "Years of experience" },
+];
 
 export function HeroSection() {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-24">
-      <p className="font-heading text-sm uppercase tracking-tight text-primary">
-        {HERO.eyebrow}
-      </p>
-      <h1 className="font-heading mt-4 text-5xl uppercase tracking-tight">
-        {HERO.headline}
-      </h1>
-      <p className="mt-4 max-w-xl text-muted-foreground">{HERO.subhead}</p>
-      <div className="mt-8 flex flex-wrap gap-4">
-        <a
-          href={HERO.primaryCta.href}
-          className="font-heading rounded-lg bg-primary px-6 py-3 text-sm uppercase tracking-tight text-primary-foreground"
-        >
-          {HERO.primaryCta.label}
-        </a>
-        {HERO.secondaryCta ? (
-          <a
-            href={HERO.secondaryCta.href}
-            className="font-heading rounded-lg border border-border px-6 py-3 text-sm uppercase tracking-tight"
-          >
-            {HERO.secondaryCta.label}
-          </a>
-        ) : null}
+    // One grid cell on phones — image, scrim and headline stack — and two rows
+    // from md, where the image drops below the headline as the comp's band.
+    <section className="grid">
+      {/* Frame clips the parallax shift; aspect-[12/5] is the source's own
+          1440x600 ratio, so the desktop band stays the comp's framing. */}
+      <ParallaxFrame className="col-start-1 row-start-1 md:row-start-2 md:aspect-[12/5]">
+        <Image
+          src="/app/kid-hero.png"
+          alt="A child in a homemade foil spacesuit holding up a paper plane against an overcast sky"
+          width={1440}
+          height={600}
+          sizes="100vw"
+          className="h-full w-full object-cover"
+          loading="eager"
+          preload
+        />
+      </ParallaxFrame>
+
+      {/* A gradient rather than a flat dim: the image stays visible up top and
+          only darkens under the copy, which sits at the bottom. White text on
+          the /70 band clears 8.6:1, so the headline survives whatever sky
+          drifts beneath it. Phones only. */}
+      <div
+        className="col-start-1 row-start-1 bg-gradient-to-b from-scrim/25 via-scrim/70 to-scrim/95 md:hidden"
+        aria-hidden="true"
+      />
+
+      <div className="col-start-1 row-start-1 flex min-h-96 flex-wrap items-end justify-between gap-x-12 gap-y-10 px-6 pt-12 pb-12 md:row-start-1 md:min-h-0 lg:px-10 lg:pt-40 lg:pb-16">
+        <h1 className="max-w-3xl text-subheading font-medium tracking-tight text-primary-foreground sm:text-heading md:text-foreground lg:text-display">
+          We Create Brands
+          <br className="hidden lg:inline" /> That Look Different,
+          <br className="hidden lg:inline" /> Feel Right, And Stay Memorable.
+        </h1>
+        <div className="flex gap-8 lg:gap-10">
+          {STATS.map((stat) => (
+            <div key={stat.id}>
+              <CountUp
+                value={stat.value}
+                suffix={stat.suffix}
+                className="text-subheading font-medium tracking-tight text-primary-foreground md:text-foreground"
+              />
+              <p className="mt-1 max-w-24 text-caption uppercase leading-tight tracking-wide text-primary-foreground md:text-foreground">
+                {stat.label}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

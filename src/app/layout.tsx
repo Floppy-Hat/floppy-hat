@@ -1,37 +1,48 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
-import localFont from "next/font/local";
+import { Inter } from "next/font/google";
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
-// Body copy. Poppins is not a variable font — weights must be listed.
-const poppins = Poppins({
+// Inter is variable — one file covers every weight the design uses.
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   variable: "--font-sans",
   display: "swap",
 });
 
-// Headings, CTA labels, eyebrows. One weight is all the design uses — the other
-// Menda cuts sit unused in ./fonts and are not bundled until imported here.
-const menda = localFont({
-  src: [{ path: "./fonts/menda-extrabold.woff2", weight: "800", style: "normal" }],
-  variable: "--font-menda",
-  display: "swap",
-  adjustFontFallback: "Arial",
-});
-
 export const metadata: Metadata = {
-  title: "Floppy Hat",
-  description: "We build brands that stand out.",
+  metadataBase: new URL("https://floppyhat.com"),
+  title: {
+    default: "Floppy Hat",
+    template: "%s — Floppy Hat",
+  },
+  description:
+    "We create brands that look different, feel right, and stay memorable.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
+    // next-themes writes the theme class on <html> before paint, which React
+    // would otherwise flag as a hydration mismatch.
     <html
       lang="en"
-      className={`${poppins.variable} ${menda.variable} antialiased h-full motion-safe:scroll-smooth`}
+      suppressHydrationWarning
+      className={`${inter.variable} antialiased h-full motion-safe:scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {/* Applies the saved theme before anything paints. Server-rendered,
+            so React never renders a <script> on the client. Dark needs no
+            class, so only a light-preferring visitor does any work here. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light")}catch(e){}`,
+          }}
+        />
+        <SiteHeader />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
+      </body>
     </html>
   );
 }
