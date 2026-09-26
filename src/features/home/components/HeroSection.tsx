@@ -4,7 +4,7 @@ import { ParallaxFrame } from "./ParallaxFrame";
 import type { Stat } from "@/types/content";
 
 const STATS: Stat[] = [
-  { id: "projects", value: 70, suffix: "+", label: "Projects completed dev" },
+  { id: "projects", value: 70, suffix: "+", label: "Projects completed" },
   { id: "experience", value: 5, suffix: "+", label: "Years of experience" },
 ];
 
