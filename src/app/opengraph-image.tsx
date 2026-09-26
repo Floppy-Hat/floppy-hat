@@ -1,9 +1,17 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { SITE } from "@/lib/site";
 
 export const alt = `${SITE.name} — ${SITE.description}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+// Read at build time and inlined as a data URI — Satori can't fetch a relative
+// path, and the file is on disk while this route is prerendered.
+const logo = readFileSync(
+  join(process.cwd(), "public/app/logo.svg"),
+).toString("base64");
 
 // Satori only supports flex layout, so every container declares it explicitly.
 // Colours are literal here: this renders outside the document, so it can't read
@@ -23,21 +31,14 @@ export default function Image() {
         }}
       >
         <div style={{ display: "flex" }}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              backgroundColor: "#012AFE",
-              color: "#FFFFFF",
-              padding: "14px 20px",
-              fontSize: 34,
-              fontWeight: 800,
-              lineHeight: 1,
-              letterSpacing: -1,
-            }}
-          >
-            FLOPPY HAT!
-          </div>
+          {/* Native 84x59, scaled 2.5x */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`data:image/svg+xml;base64,${logo}`}
+            width={210}
+            height={148}
+            alt=""
+          />
         </div>
 
         <div
