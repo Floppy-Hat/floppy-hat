@@ -7,30 +7,25 @@ export type Cta = {
   href: string;
 };
 
-export type Hero = {
-  eyebrow: string;
-  headline: string;
-  subhead: string;
-  primaryCta: Cta;
-  secondaryCta?: Cta;
+export type Stat = {
+  id: string;
+  /** Numeric so it can be counted up; the "+" lives in `suffix`. */
+  value: number;
+  suffix?: string;
+  label: string;
+};
+
+/** A piece of work in the Our Projects showcase. The slug is both the cover
+ *  filename and the route, so adding a project is one entry plus one image. */
+export type ShowcaseItem = {
+  slug: string;
+  title: string;
+  /** Omit while the artwork is pending — the cover falls back to a placeholder. */
+  image?: string;
 };
 
 export type Service = {
   id: string;
   title: string;
   description: string;
-};
-
-export type Project = {
-  id: string;
-  client: string;
-  title: string;
-  /** Becomes a static-imported StaticImageData once the case-study art lands. */
-  href?: string;
-};
-
-export type Contact = {
-  heading: string;
-  copy: string;
-  email: string;
 };

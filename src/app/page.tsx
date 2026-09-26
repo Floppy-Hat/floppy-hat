@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
 import { HomePage } from "@/features/home/HomePage";
 
-export const metadata: Metadata = {
-  title: "Floppy Hat — Branding that stands out",
-  description: "We build brands that stand out.",
+export const metadata = {
+  title: "Floppy Hat — Brand, Social, And Website Design",
+  description:
+    "We create brands that look different, feel right, and stay memorable.",
 };
 
 export default function Page() {
