@@ -18,10 +18,7 @@ const RATE_LIMIT = { max: 3, windowMs: 10 * 60 * 1000 } as const;
 // Anything stricter rejects valid addresses; the real check is the reply landing.
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export async function sendContactEmail(
-  _previous: ContactState,
-  formData: FormData,
-): Promise<ContactState> {
+export async function sendContactEmail(_previous: ContactState, formData: FormData): Promise<ContactState> {
   // Bots fill every field they find. A human never sees this one.
   if (formData.get("company")) return { status: "success" };
 
@@ -63,7 +60,7 @@ export async function sendContactEmail(
       from: "Floppy Hat <onboarding@resend.dev>",
       to: [to],
       replyTo: email,
-      subject: `New project enquiry from ${name}`,
+      subject: `New project inquiry from ${name}`,
       text: `${name} <${email}>\n\n${message}`,
     });
     if (error) {
