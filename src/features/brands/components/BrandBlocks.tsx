@@ -34,7 +34,11 @@ function Block({ block, first }: { block: BrandBlock; first: boolean }) {
 
     case "panel":
       return (
+        // Desktop only. On a phone a full-bleed tinted band becomes a wall of
+        // coloured text, so the copy is lifted out and set plainly below the
+        // CTA bars instead — see BrandNotes, which renders the same blocks.
         <BrandPanel
+          className="hidden lg:block"
           background={block.background}
           foreground={block.foreground}
           align={block.align}

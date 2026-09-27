@@ -10,6 +10,10 @@
   /* Fixed in both themes: it darkens a photo, so it can't follow the page.
      White text sits on it on phones regardless of the active theme. */
   --color-scrim: #050505;
+  /* The light counterpart to scrim, and fixed for the same reason: the hero
+     photo does not follow the theme, so neither can the ink or the glass
+     panels sitting on it. */
+  --color-glass: #ffffff;
   /* Fixed in both themes. 7.5:1 on the light background but only 2.8:1 on the
      dark one, so it is NOT a body-text colour here — use it for hairlines,
      dividers and decorative fills. Dim text on dark is --muted-foreground
@@ -74,6 +78,18 @@
 
   --text-caption: 0.875rem; /* 14px — captions, labels, nav, card body */
   --text-caption--line-height: 1.6;
+}
+
+/* Hard offset shadow — no blur, so it reads as a second solid shape behind the
+   element rather than depth. Tailwind's shadow scale is all blurred, so there
+   is no stock value for it; components use `shadow-hard`.
+
+   It follows `--foreground`, so it inverts with the theme: near-black on the
+   light page, soft white on the dark one. A fixed black would disappear
+   against the dark background. */
+
+@theme {
+  --shadow-hard: 6px 6px 0 0 var(--foreground);
 }
 
 /* Brand
