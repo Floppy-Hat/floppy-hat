@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { Resend } from "resend";
+import { CONTACT } from "@/lib/constants";
 import { isRateLimited } from "@/lib/rate-limit";
 
 /** Type-only export — erased at build, so it does not count as a runtime
@@ -49,14 +50,14 @@ export async function sendContactEmail(_previous: ContactState, formData: FormDa
   if (!apiKey || !to) {
     return {
       status: "error",
-      message: "Email isn't configured yet. Reach us at info@floppyhat.com.",
+      message: `Email isn't configured yet. Reach us at ${CONTACT.email}.`,
     };
   }
 
   try {
     const { error } = await new Resend(apiKey).emails.send({
       // onboarding@resend.dev works without a verified domain, but only
-      // delivers to the Resend account owner. Swap once floppyhat.com verifies.
+      // delivers to the Resend account owner. Swap once the domain verifies.
       from: "Floppy Hat <onboarding@resend.dev>",
       to: [to],
       replyTo: email,

@@ -12,8 +12,8 @@ export const NAV_LINKS = [
 
 export const CONTACT = {
   /** Shown in the footer exactly as the design writes it. */
-  label: "info@floppyhat.com",
-  email: "info@floppyhat.com",
+  label: "info@floppyhat.agency",
+  email: "info@floppyhat.agency",
   // ponytail: number pending — append it to the wa.me URL when the client sends one.
   whatsapp: "https://wa.me/",
 } as const;
@@ -77,10 +77,13 @@ export const COLLECTIONS: ShowcaseItem[] = [
   {
     slug: "web-design-showcase",
     title: "Web Design Showcase",
-    tagline: "A showcase of our web design work.",
+    tagline: "Websites built to make an impression.",
     description:
-      "A selection of web designs created for various clients, each tailored to meet their unique needs and objectives.",
-    image: `${COVERS}/web-design-showcase.png`,
+      "A selection of websites designed for brands across different industries, each crafted with a clear visual direction, intuitive structure, and a distinct digital experience.",
+    // No dedicated 555x555 cover was exported for this one, so it borrows the
+    // first webfolio band. The showcase crops covers square and the laptop is
+    // centred, so it survives the crop.
+    image: "/brandings/webfolio/WEBFOLIO 1.png",
   },
 ];
 

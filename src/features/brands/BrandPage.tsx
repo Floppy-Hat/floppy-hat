@@ -2,6 +2,7 @@ import { ViewTransition } from "react";
 import { showcaseTransitionName } from "@/lib/constants";
 import { BRAND_BLOCKS } from "./blocks";
 import { BrandBlocks } from "./components/BrandBlocks";
+import { BrandNotes } from "./components/BrandNotes";
 import { BrandPageNav } from "./components/BrandPageNav";
 import type { ShowcaseItem } from "@/types/content";
 
@@ -51,6 +52,8 @@ export function BrandPage({ item }: { item: ShowcaseItem }) {
         <BrandBlocks blocks={BRAND_BLOCKS[item.slug] ?? []} />
         <BrandPageNav slug={item.slug} />
       </div>
+
+      <BrandNotes blocks={BRAND_BLOCKS[item.slug] ?? []} />
     </article>
   );
 }
