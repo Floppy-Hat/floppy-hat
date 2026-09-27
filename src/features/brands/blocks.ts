@@ -5,8 +5,10 @@ import type { BrandBlock } from "@/types/content";
  *
  * Adding artwork is one `image` entry — drop the file in
  * `public/brandings/<brand>/` and copy a line. Intrinsic `width`/`height` are
- * required (they are what keep CLS at zero) and they are not uniform: most
- * bands are 1130×700, but BRASA 5 and RAPHAEL 5 are 1130×1382.
+ * required and must match the file: they are what reserve the box before it
+ * loads, so a wrong pair is a layout shift, not a cosmetic slip. Most bands are
+ * 1130×700 but several are taller, and re-exported artwork changes size without
+ * changing its name — check them against the file whenever assets move.
  *
  * A `panel` is a coloured container for your own copy. It takes the client's
  * `background`/`foreground`; leave them out and it uses the site's card
@@ -56,9 +58,11 @@ export const BRAND_BLOCKS: Record<string, BrandBlock[]> = {
       ],
     },
     { kind: "image", id: "orro-2", src: "/brandings/orro/ORRO 2.png", width: 1130, height: 700 },
-    { kind: "image", id: "orro-3", src: "/brandings/orro/ORRO 3.png", width: 1130, height: 700 },
+    { kind: "image", id: "orro-3", src: "/brandings/orro/ORRO 3.png", width: 1130, height: 1415 },
     { kind: "image", id: "orro-4", src: "/brandings/orro/ORRO 4.png", width: 1130, height: 700 },
+    { kind: "image", id: "orro-5", src: "/brandings/orro/ORRO 5.png", width: 1130, height: 700 },
     { kind: "image", id: "orro-6", src: "/brandings/orro/ORRO 6.png", width: 1130, height: 700 },
+    { kind: "image", id: "orro-7", src: "/brandings/orro/ORRO 7.png", width: 1130, height: 700 },
   ],
 
   "brasa-steak-house": [
@@ -75,10 +79,11 @@ export const BRAND_BLOCKS: Record<string, BrandBlock[]> = {
       ],
     },
     { kind: "image", id: "brasa-2", src: "/brandings/brasa/BRASA 2.png", width: 1130, height: 700 },
-    { kind: "image", id: "brasa-3", src: "/brandings/brasa/BRASA 3.png", width: 1130, height: 700 },
+    { kind: "image", id: "brasa-3", src: "/brandings/brasa/BRASA 3.png", width: 1130, height: 1415 },
     { kind: "image", id: "brasa-4", src: "/brandings/brasa/BRASA 4.png", width: 1130, height: 700 },
-    { kind: "image", id: "brasa-5", src: "/brandings/brasa/BRASA 5.png", width: 1130, height: 1382 },
+    { kind: "image", id: "brasa-5", src: "/brandings/brasa/BRASA 5.png", width: 1130, height: 700 },
     { kind: "image", id: "brasa-6", src: "/brandings/brasa/BRASA 6.png", width: 1130, height: 700 },
+    { kind: "image", id: "brasa-7", src: "/brandings/brasa/BRASA 7.png", width: 1130, height: 700 },
   ],
 
   "travellite-footwear": [
@@ -115,16 +120,17 @@ export const BRAND_BLOCKS: Record<string, BrandBlock[]> = {
       ],
     },
     { kind: "image", id: "raphael-renard-2", src: "/brandings/raphael-renard/RAPHAEL 2.png", width: 1130, height: 700 },
-    { kind: "image", id: "raphael-renard-3", src: "/brandings/raphael-renard/RAPHAEL 3.png", width: 1130, height: 700 },
+    { kind: "image", id: "raphael-renard-3", src: "/brandings/raphael-renard/RAPHAEL 3.png", width: 1130, height: 1415 },
     { kind: "image", id: "raphael-renard-4", src: "/brandings/raphael-renard/RAPHAEL 4.png", width: 1130, height: 700 },
+    { kind: "image", id: "raphael-renard-5", src: "/brandings/raphael-renard/RAPHAEL 5.png", width: 1130, height: 700 },
     {
       kind: "image",
-      id: "raphael-renard-5",
-      src: "/brandings/raphael-renard/RAPHAEL 5.png",
+      id: "raphael-renard-6",
+      src: "/brandings/raphael-renard/RAPHAEL 6.png",
       width: 1130,
-      height: 1382,
+      height: 700,
     },
-    { kind: "image", id: "raphael-renard-6", src: "/brandings/raphael-renard/RAPHAEL 6.png", width: 1130, height: 700 },
+    { kind: "image", id: "raphael-renard-7", src: "/brandings/raphael-renard/RAPHAEL 7.png", width: 1130, height: 700 },
   ],
 
   // Logofolio is marks only — no panel, no copy. One band each.
@@ -140,7 +146,15 @@ export const BRAND_BLOCKS: Record<string, BrandBlock[]> = {
     { kind: "logo", id: "logofolio-9", src: "/brandings/logofolio/9.svg", width: 134, height: 38 },
   ],
 
-  // web-design-showcase takes the same shape as logofolio — logo bands, no
-  // panel — but its assets do not exist yet, so it stays empty and the page
-  // renders header + CTA bars only.
+  // Key is the showcase slug, not the asset folder — BrandPage looks these up
+  // by `item.slug`. Full-bleed bands stacking flush, like every other brand;
+  // the gapped treatment is logofolio's, and belongs to `kind: "logo"`.
+  "web-design-showcase": [
+    { kind: "image", id: "webfolio-1", src: "/brandings/webfolio/WEBFOLIO 1.png", width: 1130, height: 700 },
+    { kind: "image", id: "webfolio-2", src: "/brandings/webfolio/WEBFOLIO 2.png", width: 1130, height: 700 },
+    { kind: "image", id: "webfolio-3", src: "/brandings/webfolio/WEBFOLIO 3.png", width: 1130, height: 700 },
+    { kind: "image", id: "webfolio-4", src: "/brandings/webfolio/WEBFOLIO 4.png", width: 1130, height: 700 },
+    { kind: "image", id: "webfolio-5", src: "/brandings/webfolio/WEBFOLIO 5.png", width: 1130, height: 700 },
+    { kind: "image", id: "webfolio-6", src: "/brandings/webfolio/WEBFOLIO 6.png", width: 1130, height: 700 },
+  ],
 };

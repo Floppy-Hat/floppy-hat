@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { CONTACT } from "@/lib/constants";
 import { SITE } from "@/lib/site";
 
 export const alt = `${SITE.name} — ${SITE.description}`;
@@ -65,7 +66,7 @@ export default function Image() {
           <div style={{ display: "flex" }}>Brand · Social · Websites</div>
           {/* The lifted blue, not #012AFE — brand blue is 2.8:1 on black and
               too dim to read at thumbnail size in a feed. */}
-          <div style={{ display: "flex", color: "#5488FE" }}>floppyhat.com</div>
+          <div style={{ display: "flex", color: "#5488FE" }}>{CONTACT.email}</div>
         </div>
       </div>
     ),
