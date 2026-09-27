@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { BrandPage } from "@/features/brands/BrandPage";
-import { SHOWCASE_ITEMS } from "@/lib/constants";
+import { projectHref, SHOWCASE_ITEMS } from "@/lib/constants";
 
 // Every showcase entry is a known slug, so anything else 404s at build time
 // instead of rendering an empty page on demand.
@@ -13,7 +13,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
   const item = SHOWCASE_ITEMS.find((entry) => entry.slug === slug);
-  return { title: item?.title ?? "Projects", description: item?.tagline };
+  return {
+    title: item?.title ?? "Projects",
+    description: item?.tagline,
+    alternates: { canonical: projectHref(slug) },
+  };
 }
 
 export default async function Page({ params }: PageProps<"/projects/[slug]">) {
