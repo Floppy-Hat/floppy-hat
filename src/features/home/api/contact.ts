@@ -56,9 +56,11 @@ export async function sendContactEmail(_previous: ContactState, formData: FormDa
 
   try {
     const { error } = await new Resend(apiKey).emails.send({
-      // onboarding@resend.dev works without a verified domain, but only
-      // delivers to the Resend account owner. Swap once the domain verifies.
-      from: "Floppy Hat <onboarding@resend.dev>",
+      // Sends as the verified domain, so delivery is no longer limited to the
+      // Resend account owner the way onboarding@resend.dev was. Same address
+      // as CONTACT.email on purpose: a reply to the notification and a reply
+      // to the address on the site land in the same inbox.
+      from: `Floppy Hat <${CONTACT.email}>`,
       to: [to],
       replyTo: email,
       subject: `New project inquiry from ${name}`,
