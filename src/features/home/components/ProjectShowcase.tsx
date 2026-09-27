@@ -3,10 +3,51 @@
 import { IconCircleArrowDown } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { projectHref } from "@/lib/constants";
+import { useState, ViewTransition } from "react";
+import { projectHref, showcaseTransitionName } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import type { ShowcaseItem } from "@/types/content";
+
+/**
+ * One name in the list. Hovering or focusing it swaps the cover; clicking
+ * opens its page, and the name morphs into that page's h1 on the way.
+ *
+ * Module scope on purpose — defined inside ProjectShowcase it would be a new
+ * component type on every render, so React would remount every link (and drop
+ * focus) each time the active item changed.
+ */
+function ShowcaseLink({
+  item,
+  isActive,
+  onPreview,
+}: {
+  item: ShowcaseItem;
+  isActive: boolean;
+  onPreview: () => void;
+}) {
+  return (
+    <ViewTransition
+      name={showcaseTransitionName(item.slug)}
+      share="morph"
+      default="none"
+    >
+      <Link
+        href={projectHref(item.slug)}
+        onMouseEnter={onPreview}
+        onFocus={onPreview}
+        data-active={isActive}
+        className={cn(
+          "block text-subheading font-medium tracking-tight sm:text-heading lg:text-display",
+          isActive
+            ? "text-foreground"
+            : "text-foreground/60 hover:text-foreground",
+        )}
+      >
+        {item.title}
+      </Link>
+    </ViewTransition>
+  );
+}
 
 export function ProjectShowcase({
   projects,
@@ -19,24 +60,12 @@ export function ProjectShowcase({
   const [activeSlug, setActiveSlug] = useState(projects[0].slug);
   const active = items.find((item) => item.slug === activeSlug) ?? projects[0];
 
-  const linkClass = (item: ShowcaseItem) =>
-    cn(
-      "block text-subheading font-medium tracking-tight sm:text-heading lg:text-display",
-      item.slug === active.slug
-        ? "text-foreground"
-        : "text-foreground/60 hover:text-foreground",
-    );
-
-  // Hovering or focusing a name swaps the cover; clicking opens its page.
-  const preview = (item: ShowcaseItem) => ({
-    onMouseEnter: () => setActiveSlug(item.slug),
-    onFocus: () => setActiveSlug(item.slug),
-  });
-
   return (
-    // Cover and list share row 1; the caption drops to row 2 under the cover
-    // only, so the list column stretches to the image height and no further.
-    <div className="grid gap-x-10 gap-y-6 md:grid-cols-2">
+    // From md only — touch gets ProjectList instead, since hover has no
+    // equivalent there. Cover and list share row 1; the caption drops to row 2
+    // under the cover only, so the list column stretches to the image height
+    // and no further.
+    <div className="hidden gap-x-10 gap-y-6 md:grid md:grid-cols-2">
       {/* Every cover is rendered and cross-faded, so a swap never waits on a
           network request. Only opacity animates. */}
       <div className="relative aspect-square w-full bg-muted md:col-start-1 md:row-start-1">
@@ -70,19 +99,16 @@ export function ProjectShowcase({
         <ul>
           {projects.map((project) => (
             <li key={project.slug}>
-              <Link
-                href={projectHref(project.slug)}
-                {...preview(project)}
-                data-active={project.slug === active.slug}
-                className={linkClass(project)}
-              >
-                {project.title}
-              </Link>
+              <ShowcaseLink
+                item={project}
+                isActive={project.slug === active.slug}
+                onPreview={() => setActiveSlug(project.slug)}
+              />
             </li>
           ))}
         </ul>
 
-        <div className="mt-16 md:mt-0">
+        <div>
           <div className="flex items-center gap-6">
             <p className="text-caption leading-tight text-foreground">
               Browse Our
@@ -97,14 +123,11 @@ export function ProjectShowcase({
           <ul className="mt-6">
             {collections.map((collection) => (
               <li key={collection.slug}>
-                <Link
-                  href={projectHref(collection.slug)}
-                  {...preview(collection)}
-                  data-active={collection.slug === active.slug}
-                  className={linkClass(collection)}
-                >
-                  {collection.title}
-                </Link>
+                <ShowcaseLink
+                  item={collection}
+                  isActive={collection.slug === active.slug}
+                  onPreview={() => setActiveSlug(collection.slug)}
+                />
               </li>
             ))}
           </ul>

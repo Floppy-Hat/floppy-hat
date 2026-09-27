@@ -10,6 +10,11 @@
   /* Fixed in both themes: it darkens a photo, so it can't follow the page.
      White text sits on it on phones regardless of the active theme. */
   --color-scrim: #050505;
+  /* Fixed in both themes. 7.5:1 on the light background but only 2.8:1 on the
+     dark one, so it is NOT a body-text colour here — use it for hairlines,
+     dividers and decorative fills. Dim text on dark is --muted-foreground
+     (6.1:1). */
+  --color-soft-gray: #555555;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
@@ -150,5 +155,25 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* The showcase name morphs into the brand page's h1 on navigate — the one
+   orchestrated moment on the site. `share="morph"` puts every paired element
+   in this class, so the timing is set once here rather than per component. */
+::view-transition-group(.morph) {
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Same posture as every other animation here: honour the OS preference.
+   Without a duration the content swaps instantly, which is the browser's
+   default when view transitions aren't supported at all. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }
