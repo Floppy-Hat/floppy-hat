@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SITE, siteUrl } from "@/lib/site";
 import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 // Inter is variable — one file covers every weight the design uses.
 const inter = Inter({
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );
