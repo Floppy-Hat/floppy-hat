@@ -22,7 +22,10 @@ function Block({ block, first }: { block: BrandBlock; first: boolean }) {
           width={block.width}
           height={block.height}
           sizes="(min-width: 1152px) 1104px, calc(100vw - 48px)"
-          className="h-auto w-full"
+          // bg-muted is the skeleton. The box is already sized by width/height,
+          // so the band fills with a surface colour the moment it lays out and
+          // the opaque image covers it on load — no wrapper, no client JS.
+          className="h-auto w-full bg-muted"
           // The first band is the LCP on these pages, same as the home hero.
           preload={first}
           fetchPriority={first ? "high" : undefined}

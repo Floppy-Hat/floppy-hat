@@ -400,8 +400,36 @@ Every page exports its own `metadata`. A landing page that doesn't is a bug.
 
 ## Assets and env
 
-- `next/image` for every image, static-imported from `src/` so width/height and
-  blur placeholder come for free. Hero image gets `priority`.
+- `next/image` for every image. Static-import from `src/` where you can, so
+  width/height come for free. Brand artwork lives in `public/brandings/<brand>/`
+  and is referenced by path, so those entries carry explicit `width`/`height` —
+  they are not uniform, and a wrong pair is a layout shift on load, not a
+  cosmetic slip. Check them against the file when artwork changes.
+- The LCP image gets `preload` **and** `fetchPriority="high"`. In Next 16
+  `priority` is deprecated, and `preload` on its own only emits the `<link>` —
+  it does not set `fetchpriority`, which Lighthouse flags. Everything below the
+  fold stays lazy, which is the default.
+
+### Loaders
+
+**A skeleton is a background colour, not a component.** An `<img>` paints its
+own background until the image covers it, and `width`/`height` have already
+reserved the box — so `bg-muted` on the image *is* the skeleton:
+
+```tsx
+<Image src={block.src} width={1130} height={700} className="h-auto w-full bg-muted" />
+```
+
+No wrapper, no `onLoad`, no client JS, and it covers every image automatically
+including ones added later. Containers that size their own image (`fill`) put
+`bg-muted` on the sized parent instead — see `ProjectList`'s cards.
+
+Don't reach for an animated shimmer. Stopping one on load needs `onLoad`, which
+makes the component a client component and drags its subtree out of server
+rendering — a real cost for a spinner nobody asked for. Don't generate
+per-image placeholder colours or blur data either: that is a second copy of
+facts about the files, and it goes stale the moment artwork is renamed.
+
 - Secrets in `.env.local` (gitignored); `NEXT_PUBLIC_` only for values that are
   genuinely public. `.env.example` lists the keys with empty values.
 
