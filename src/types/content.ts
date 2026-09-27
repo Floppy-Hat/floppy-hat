@@ -22,6 +22,9 @@ export type ShowcaseItem = {
   title: string;
   /** Omit while the artwork is pending — the cover falls back to a placeholder. */
   image?: string;
+  /** Project page header copy. Omit while it's still being written. */
+  tagline?: string;
+  description?: string;
 };
 
 export type Service = {
@@ -29,3 +32,46 @@ export type Service = {
   title: string;
   description: string;
 };
+
+/** One band in a brand page body. Blocks stack flush, in array order.
+ *
+ *  `image` is artwork straight from `public/brandings/<brand>/`; `panel` is a
+ *  coloured container you put your own content in — either the declarative
+ *  `title`/`body` below, or arbitrary children by composing `<BrandPanel>`
+ *  directly in a page. */
+export type BrandBlock =
+  | {
+      kind: "image";
+      /** Stable key. The asset folder plus its sequence number. */
+      id: string;
+      src: string;
+      /** Intrinsic pixels — they vary (most are 1130×700, some are taller). */
+      width: number;
+      height: number;
+      /** Decorative by default; describe it when it carries real information. */
+      alt?: string;
+    }
+  | {
+      kind: "panel";
+      id: string;
+      /** Client brand colours. Omit both to fall back to the site's own
+       *  `bg-card` / `text-card-foreground` tokens. */
+      background?: string;
+      foreground?: string;
+      align?: "left" | "center";
+      title?: string;
+      /** One string per paragraph. */
+      body?: string[];
+    }
+  | {
+      /** A single logo mark centred in its own band — the logofolio shape. */
+      kind: "logo";
+      id: string;
+      src: string;
+      /** Intrinsic pixels. The marks are not a uniform size. */
+      width: number;
+      height: number;
+      /** Defaults to the site's `bg-card`. */
+      background?: string;
+      alt?: string;
+    };

@@ -42,6 +42,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
+      // Next 16 stopped overriding scroll-behavior on route transitions unless
+      // this attribute says to. Without it, `scroll-smooth` turns the
+      // scroll-to-top into an animation the incoming page interrupts, so you
+      // land wherever the old page was scrolled to.
+      data-scroll-behavior="smooth"
       className={`${inter.variable} antialiased h-full motion-safe:scroll-smooth`}
     >
       <body className="min-h-full flex flex-col">

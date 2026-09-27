@@ -273,9 +273,9 @@ Rules:
 - **Licensing:** serving a font from a public domain is web embedding and needs
   a **webfont** licence. Confirm before launch.
 
-The unused Menda `.woff2` files sit in `src/app/fonts/` from an earlier
-direction. `next/font` bundles only what `layout.tsx` imports, so they cost
-nothing — delete them or wire one up, but don't assume they're in play.
+Inter is the whole stack — headings included. An earlier direction had Menda
+self-hosted in `src/app/fonts/`; those files were deleted unused, so there is no
+`src/app/fonts/` and nothing to wire up.
 
 ### Type and spacing
 
@@ -407,7 +407,7 @@ Every page exports its own `metadata`. A landing page that doesn't is a bug.
 
 ## Known cleanups
 
-- Menda is not self-hosted yet — headings render in Poppins. See Fonts above.
+- None open.
 
 ## Working style
 
