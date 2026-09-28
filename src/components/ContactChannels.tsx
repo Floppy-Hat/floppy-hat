@@ -7,7 +7,10 @@ import { cn } from "@/lib/utils";
  *  The footer labels the block; the dialog doesn't, so `label` is optional. */
 export function ContactChannels({
   label,
-  addressClassName = "text-heading",
+  // Mobile first: at 36px the address needs ~393px and a 375px phone has 327
+  // after gutters. An email has no break opportunity, so it does not wrap — it
+  // widens the document and the whole page scrolls sideways.
+  addressClassName = "text-subheading sm:text-heading",
   className,
 }: {
   label?: string;
@@ -21,7 +24,9 @@ export function ContactChannels({
       <a
         href={`mailto:${CONTACT.email}`}
         className={cn(
-          "inline-block font-medium tracking-tight",
+          // break-words is the backstop: a longer address at a smaller size
+          // would hit the same wall, and a broken line beats a broken page.
+          "inline-block font-medium tracking-tight break-words",
           addressClassName,
           label && "mt-2",
         )}
