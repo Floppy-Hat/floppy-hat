@@ -86,26 +86,6 @@ export const BRAND_BLOCKS: Record<string, BrandBlock[]> = {
     { kind: "image", id: "brasa-7", src: "/brandings/brasa/BRASA 7.png", width: 1130, height: 700 },
   ],
 
-  "travellite-footwear": [
-    { kind: "image", id: "travellite-1", src: "/brandings/travellite/TRAVELLITE 1.png", width: 1130, height: 700 },
-    {
-      kind: "panel",
-      id: "travellite-footwear-intro",
-      ...LIGHT_PANEL,
-      title: "Travellite Footwear",
-      body: [
-        "Travellite Footwear is made for people who keep moving. Designed with comfort at the forefront, each pair is built to make everyday steps feel easier, whether you're heading to work, exploring somewhere new, or simply going about your day.",
-        "The brand takes its name from the feeling it aims to deliver — footwear that feels light, comfortable, and ready to go wherever you are. We shaped the identity around this sense of movement, creating a visual direction that feels approachable, practical, and effortless.",
-        "Clean typography, soft forms, and a lightweight visual system give Travellite a fresh and comfortable personality. The identity works across footwear, packaging, and digital touchpoints, creating a consistent brand experience that feels as easy as the shoes themselves.",
-      ],
-    },
-    { kind: "image", id: "travellite-2", src: "/brandings/travellite/TRAVELLITE 2.png", width: 1130, height: 700 },
-    { kind: "image", id: "travellite-3", src: "/brandings/travellite/TRAVELLITE 3.png", width: 1130, height: 700 },
-    { kind: "image", id: "travellite-4", src: "/brandings/travellite/TRAVELLITE 4.png", width: 1130, height: 700 },
-    { kind: "image", id: "travellite-5", src: "/brandings/travellite/TRAVELLITE 5.png", width: 1130, height: 700 },
-    { kind: "image", id: "travellite-6", src: "/brandings/travellite/TRAVELLITE 6.png", width: 1130, height: 700 },
-  ],
-
   "raphael-renard": [
     { kind: "image", id: "raphael-renard-1", src: "/brandings/raphael-renard/RAPHAEL 1.png", width: 1130, height: 700 },
     {
