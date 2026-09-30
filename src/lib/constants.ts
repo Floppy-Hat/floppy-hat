@@ -47,14 +47,6 @@ export const PROJECTS: ShowcaseItem[] = [
       "Orro Buns & Coffee Brings Together Freshly Baked Buns, Quality Coffee, And A Warm, Inviting Atmosphere. We Created A Visual Identity That Feels Playful, Approachable, And Memorable While Capturing The Brand's Love For Good Food And Good Coffee.",
   },
   {
-    slug: "travellite-footwear",
-    title: "Travellite Footwear",
-    tagline: "Comfort made for every step.",
-    description:
-      "Travellite Footwear creates comfortable, versatile shoes designed to keep up with everyday movement. We developed a clean and approachable brand identity that reflects the freedom, comfort, and ease of going wherever life takes you.",
-    image: `${COVERS}/travellite-footwear.png`,
-  },
-  {
     slug: "raphael-renard",
     title: "Raphael Renard",
     tagline: "A refined identity for a modern barbershop.",
